@@ -1,19 +1,61 @@
-```
-- 그래프와 트리의 공통점
-계층적 구조의 노드와 노드 간의 관계를 나타내는 비선형 자료 구조이다.
-노드와 노드간의 연결을 간선으로 구성한다
-비선형 자료 구조는 평면 상에 분포 된 요소들의 집합으로 구성되며,
-선형 데이터 구조에 존재하는 요소들 사이에 있는 시퀀스가 존재하지 않는 다는 것을 의미한다.
+class Tree {
+  constructor() {
+    this.root = null;
+  }
 
-- 그래프와 트리의 차이점
-그래프는 노드 간에 2개 이상의 경로가 가능하며, 부모 - 자식 관계가 없다.
-또한 순환 또는 비순환 구조를 이룬다.
-ex) 지도, 지하철 노선도의 경로, 선수 과목
+  BFS(fn) {
+    if (this.root === null) return;
 
-트리는 그래프의 한 종류이며, 방향성이 있고 사이클이 존재하지 않는다 (비순환구조)
-부모 - 자식 관계라는 개념이 있으며, 최상위에 Root 노드가 존재한다.
-ex) 이진 트리, 이진 탐색 트리, 이진 힙, 균형 트리
-```;
+    // 초기화를 해준다
+    const unvisitiedQueue = [this.root];
+    while (unvisitiedQueue.length !== 0) {
+      // 꺼내서 current 저장, 자식들을 뒤로 집어 넣고, 경로를 담는 배열에 꺼낸 current 를 넣는다
+      const current = unvisitiedQueue.shift();
+      unvisitiedQueue.push(...current?.children);
+      fn(current);
+    }
+  }
 
-//
-//
+  DFS(fn) {
+    if (this.root === null) return;
+    // 초기화
+    const unvisitedList = [this.root];
+    while (unvisitedList.length !== 0) {
+      const current = unvisitedList.shift();
+      unvisitedList.unshift(...current.children); // list 앞에다 넣어준다. (우선순위: 내 자식들이 먼저야! )
+      fn(current);
+    }
+  }
+}
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.children = [];
+  }
+
+  add(data) {
+    this.children.push(new Node(data));
+  }
+
+  remove(data) {
+    this.children = this.children.filter(child => child.data !== data);
+  }
+}
+
+const lettersBFS = [];
+const lettersDFS = [];
+const t = new Tree();
+t.root = new Node('a');
+t.root.add('b');
+t.root.add('d');
+t.root.children[0].add('c');
+
+t.DFS(node => lettersDFS.push(node.data));
+console.log(lettersDFS);
+// a b c d
+
+t.BFS(node => lettersBFS.push(node.data));
+console.log(lettersBFS);
+// a b d c
+// 참고 https://jun-choi-4928.medium.com/javascript%EB%A1%9C-%ED%8A%B8%EB%A6%AC-bfs-dfs-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0-e96bcdadd1f3
