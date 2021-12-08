@@ -40,3 +40,6 @@ function solution(arr) {
 // 2차원 배열에서 2번째 for 문에서 arr[i].length 로 했어야했다
 // 외부로부터 한 번씩 돌면서 들어오는게 맞다. 안에서 부터 나누기 시작하면 안된다
 // while 문을 통해 종료조건을 명확히 명시해야한다 n 이 1 이 되면 for 문을 도는 의미가 없다
+
+// 풀이 참고 블로그
+// https://velog.io/@alvin/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8%EC%8A%A4-%EB%AC%B8%EC%A0%9C%ED%92%80%EC%9D%B4-%EC%BF%BC%EB%93%9C%EC%95%95%EC%B6%95-%ED%9B%84-%EA%B0%9C%EC%88%98-%EC%84%B8%EA%B8%B0
