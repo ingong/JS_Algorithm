@@ -56,3 +56,40 @@ function solution(n, edges) {
 
   return answer + maxDistNodeCount;
 }
+
+// 벨로그 참고 풀이
+const dijkstra = (n, adj) => {
+  const dist = Array(n + 1).fill(false);
+  const queue = [];
+
+  queue.push({ to: 1, cost: 0 });
+  dist[1] = 0;
+
+  while (queue.length !== 0) {
+    const { to, cost } = queue.shift();
+
+    adj[to].forEach(nextNode => {
+      const nextCost = cost + 1;
+      if (dist[nextNode] === false) {
+        dist[nextNode] = nextCost;
+        queue.push({ to: nextNode, cost: nextCost });
+      }
+    });
+  }
+
+  const max = Math.max(...dist);
+  return dist.filter(num => num === max).length;
+};
+
+function solution(n, edges) {
+  let answer = 0;
+  let adj = Array.from({ length: n + 1 }, () => []);
+
+  edges.forEach(route => {
+    adj[route[0]].push(route[1]);
+    adj[route[1]].push(route[0]);
+  });
+
+  answer = dijkstra(n, adj);
+  return answer;
+}
