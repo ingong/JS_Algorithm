@@ -13,3 +13,18 @@ const permutation = (arr, selectNum) => {
 
   return result;
 };
+
+const combination = (order, selectNum) => {
+  const result = [];
+  if (selectNum === 1) return order.map(item => [item]);
+
+  order.forEach((menu, index, order) => {
+    const fixed = menu;
+    const restOrders = order.slice(index + 1);
+    const restCombination = combination(restOrders, selectNum - 1);
+    const resultCombination = restCombination.map(item => [fixed, ...item]);
+    result.push(...resultCombination);
+  });
+
+  return result;
+};
