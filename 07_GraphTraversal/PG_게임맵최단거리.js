@@ -37,3 +37,25 @@ function solution(maps) {
 // D 가 처리될 때 E 는 방문되어있지 않기 때문에 다시 E 를 큐에 넣는다.
 // 아마 이걸 의도한 것 같다. queue 에 입어넣을 때 같이 방문처리를 해주니 효율성 테스트를 통과했다.
 // 그렇다면 모든 BFS 문제는 queue 에 집어넣을 때 방문처리를 해줘야할까? 아니면 문제 유형에 따라 다를까? 궁금하다
+function solution(maps) {
+  const n = maps.length;
+  const m = maps[0].length;
+  const queue = [[0, 0]];
+  const dx = [0, 0, -1, 1];
+  const dy = [-1, 1, 0, 0];
+
+  while (queue.length) {
+    const [x, y] = queue.shift();
+    for (let i = 0; i < 4; i++) {
+      const nx = x + dx[i];
+      const ny = y + dy[i];
+      const bdry = 0 <= nx && nx < n && 0 <= ny && ny < m;
+
+      if (!bdry || !maps[nx][ny] || maps[nx][ny] > 1) continue;
+      queue.push([nx, ny]);
+      maps[nx][ny] = maps[x][y] + 1;
+    }
+  }
+
+  return maps[n - 1][m - 1] <= 1 ? -1 : maps[n - 1][m - 1];
+}
